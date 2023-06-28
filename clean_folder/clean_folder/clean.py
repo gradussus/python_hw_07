@@ -1,6 +1,7 @@
 import os
 import re
 import shutil
+import sys
 
 extensions = {
     'images': ('jpeg', 'png', 'jpg', 'svg'),
@@ -13,13 +14,15 @@ extensions = {
 unknown_extensions = set()
 known_extensions = set()
 
-def goClean():
-    initial_directory = os.getcwd()
+
+
+def goClean(args):
+
+    initial_directory = args[1]
     walk(initial_directory, initial_directory)
 
     print('{:^30}{}'.format('Unknown_extensions:', unknown_extensions))
     print('{:^30}{}'.format('Known_extensions:', known_extensions))
-
 
     if os.path.exists(os.path.join(initial_directory, 'images')):
         print('{:^30}{}'.format('Images:', os.listdir(os.path.join(initial_directory, 'images') )))
@@ -148,3 +151,11 @@ def walk (path, init_path):
             else:
                 move_file(path, item, init_path)
 
+def start():
+    args = sys.argv
+    if len(args) != 2:
+        print('Enter the desired directory after the script name')
+        
+        return
+    else:
+        goClean(args)
